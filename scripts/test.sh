@@ -19,10 +19,7 @@ test_example() {
     python -m ipykernel install --user
     journal generate src/notebooks/uncertainty.py
 
-    (
-      set +o nounset
-      deactivate
-    )
+    deactivate
   )
 }
 
