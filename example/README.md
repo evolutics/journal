@@ -1,5 +1,7 @@
 # Example
 
+This folder is a minimal working example that you can copy to get started.
+
 ## Environment
 
 Use a virtual environment as follows.
