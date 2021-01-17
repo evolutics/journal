@@ -7,5 +7,5 @@ setuptools.setup(
             "journal=journal:main",
         ],
     },
-    packages=[],
+    packages=setuptools.find_packages(),
 )
