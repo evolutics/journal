@@ -14,7 +14,7 @@ test_example() {
     pip install --requirement requirements.txt
 
     journal --help
-    journal test_without_check
+    journal test
 
     python -m ipykernel install --user
     journal generate src/notebooks/uncertainty.py

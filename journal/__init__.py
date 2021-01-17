@@ -43,7 +43,6 @@ def _subcommands():
         subparser.add_argument("jupytext_path", type=pathlib.Path)
 
     return {
-        "check": subcommand_without_arguments(_check),
         "generate": _Subcommand(
             configure_subparser=configure_generate,
             run=lambda arguments: _generate(arguments.jupytext_path, arguments.open),
@@ -52,27 +51,7 @@ def _subcommands():
         "lint": subcommand_without_arguments(_lint),
         "test": subcommand_without_arguments(_test),
         "test_in_isolation": subcommand_without_arguments(_test_in_isolation),
-        "test_without_check": subcommand_without_arguments(_test_without_check),
     }
-
-
-def _check():
-    working_folder = pathlib.Path.cwd()
-    subprocess.run(
-        [
-            "docker",
-            "run",
-            "--entrypoint",
-            "sh",
-            "--rm",
-            "--volume",
-            f"{working_folder}:/workdir",
-            "evolutics/travel-kit:0.6.0",
-            "-c",
-            "git ls-files -z | xargs -0 travel-kit check --skip Pylint --",
-        ],
-        check=True,
-    )
 
 
 def _generate(jupytext_path, open_):
@@ -118,20 +97,14 @@ def _lint():
 
 
 def _test():
-    _check()
-    _test_without_check()
-
-
-def _test_without_check():
     _lint()
     subprocess.run(["pytest"], check=True)
 
 
 def _test_in_isolation():
-    _check()
-    image = _build_docker_image("test_without_check", ["."])
+    image = _build_docker_image("test", ["."])
     subprocess.run(
-        ["docker", "run", "--rm", image, "journal", "test_without_check"],
+        ["docker", "run", "--rm", image, "journal", "test"],
         check=True,
     )
 
