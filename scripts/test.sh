@@ -8,13 +8,17 @@ test_example() {
   (
     cd example
 
+    sed 's/.*journal.*/../' requirements.txt \
+      | diff - ../scripts/requirements.txt
+
     python3 -m venv .venv
     # shellcheck disable=SC1091
     source .venv/bin/activate
-    pip install --requirement requirements.txt
+    pip install --requirement ../scripts/requirements.txt
 
     journal --help
     journal test
+    journal test_in_isolation
 
     python -m ipykernel install --user
     journal generate src/notebooks/uncertainty.py

@@ -32,6 +32,8 @@ To test, run
 journal test
 ```
 
+To test in an isolated Docker environment, there is also `journal test_in_isolation`, which may be useful for continuous integration.
+
 Render a notebook as in
 
 ```bash

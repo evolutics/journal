@@ -6,6 +6,8 @@ import sys
 import typing
 import webbrowser
 
+import pkg_resources
+
 
 def main():
     parser = argparse.ArgumentParser()
@@ -102,18 +104,20 @@ def _test():
 
 
 def _test_in_isolation():
-    image = _build_docker_image("test", ["."])
+    project = _project_name()
+    image = f"{project}:journal"
+
+    dockerfile = pkg_resources.resource_stream(__name__, "Dockerfile")
+    subprocess.run(
+        ["docker", "build", "--file", "-", "--tag", image, "."],
+        check=True,
+        stdin=dockerfile,
+    )
+
     subprocess.run(
         ["docker", "run", "--rm", image, "journal", "test"],
         check=True,
     )
-
-
-def _build_docker_image(tag, arguments):
-    project = _project_name()
-    image = f"{project}:{tag}"
-    subprocess.run(["docker", "build", "--tag", image] + arguments, check=True)
-    return image
 
 
 def _project_name():

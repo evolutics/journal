@@ -1,5 +1,5 @@
 --editable .
-git+https://github.com/evolutics/journal#egg=journal
+..
 jupyterlab==3.0.5
 jupytext==1.9.1
 pylint==2.6.0
