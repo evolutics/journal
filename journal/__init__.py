@@ -95,7 +95,7 @@ def _lint():
     if not notebooks_init.exists():
         sys.exit(f"File must exist to lint notebooks: {notebooks_init}")
 
-    subprocess.run(["pylint", "src", "tests"], check=True)
+    subprocess.run(["pylint", "src"], check=True)
 
 
 def _test():
